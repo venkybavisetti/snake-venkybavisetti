@@ -27,18 +27,6 @@ const createCell = function(grid, colId, rowId) {
   grid.appendChild(cell);
 };
 
-const drawSnake = function(snake) {
-  snake.forEach(([colId, rowId]) => {
-    const cell = getCell(colId, rowId);
-    cell.classList.add('snake');
-  });
-};
-
-const eraseTail = function([colId, rowId]) {
-  const cell = getCell(colId, rowId);
-  cell.classList.remove('snake');
-};
-
 const createGrids = function() {
   const grid = getGrid();
   for (let y = 0; y < NUM_OF_ROWS; y++) {
@@ -48,26 +36,86 @@ const createGrids = function() {
   }
 };
 
-const moveSnake = function() {
-  const [headX, headY] = snake[snake.length - 1];
-  const tail = snake.shift();
+class Snake {
+  constructor(positions, direction) {
+    this.positions = positions.slice();
+    this.direction = direction;
+    this.previousTail = [0, 0];
+  }
 
-  const [deltaX, deltaY] = DELTAS[snakeDirection];
+  get location() {
+    return this.positions.slice();
+  }
 
-  snake.push([headX + deltaX, headY + deltaY]);
-  eraseTail(tail);
-  drawSnake(snake);
+  turnLeft() {
+    this.direction = (this.direction + 1) % 4;
+  }
+
+  move() {
+    const [headX, headY] = this.positions[this.positions.length - 1];
+    this.previousTail = this.positions.shift();
+
+    const [deltaX, deltaY] = DELTAS[this.direction];
+
+    this.positions.push([headX + deltaX, headY + deltaY]);
+  }
+}
+
+const snake = new Snake(
+  [
+    [40, 25],
+    [41, 25],
+    [42, 25]
+  ],
+  EAST
+);
+
+const ghostSnake = new Snake(
+  [
+    [40, 30],
+    [41, 30],
+    [42, 30]
+  ],
+  SOUTH
+);
+
+const eraseTail = function(snake) {
+  let [colId, rowId] = snake.previousTail;
+  const cell = getCell(colId, rowId);
+  cell.classList.remove('snake');
+};
+
+const drawSnake = function(snake) {
+  snake.location.forEach(([colId, rowId]) => {
+    const cell = getCell(colId, rowId);
+    cell.classList.add('snake');
+  });
 };
 
 const handleKeyPress = () => {
-  snakeDirection = (snakeDirection + 1) % 4;
+  snake.turnLeft();
 };
 
-let snakeDirection = EAST;
-const snake = [40, 41, 42].map(x => [x, 25]);
+const moveAndDrawSnake = function(snake) {
+  snake.move();
+  eraseTail(snake);
+  drawSnake(snake);
+};
 
 const main = function() {
   createGrids();
   drawSnake(snake);
-  setInterval(moveSnake, 200);
+  drawSnake(ghostSnake);
+
+  setInterval(() => {
+    moveAndDrawSnake(snake);
+    moveAndDrawSnake(ghostSnake);
+  }, 200);
+
+  setInterval(() => {
+    let x = Math.random() * 100;
+    if (x > 50) {
+      ghostSnake.turnLeft();
+    }
+  }, 500);
 };
