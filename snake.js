@@ -23,20 +23,32 @@ const drawSnake = function(snake) {
   });
 };
 
+const eraseTail = function([colId, rowId]) {
+  const cell = getCell(colId, rowId);
+  cell.classList.remove('snake');
+};
+
 const createGrids = function() {
   const grid = getGrid();
-  for (let rowId = 0; rowId < NUM_OF_COLS; rowId++) {
-    for (let colId = 0; colId < NUM_OF_ROWS; colId++) {
-      createCell(grid, colId, rowId);
+  for (let y = 0; y < NUM_OF_ROWS; y++) {
+    for (let x = 0; x < NUM_OF_COLS; x++) {
+      createCell(grid, x, y);
     }
   }
 };
 
-const createSnake = () => [40, 41, 42].map(x => [x, 25]);
+const handleKeyPress = () => {
+  const [headX, headY] = snake[snake.length - 1];
+  const tail = snake.shift();
+
+  snake.push([headX + 1, headY]);
+  eraseTail(tail);
+  drawSnake(snake);
+};
+
+const snake = [40, 41, 42].map(x => [x, 25]);
 
 const main = function() {
-  const snake = createSnake();
-
   createGrids();
   drawSnake(snake);
 };
