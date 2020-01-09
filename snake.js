@@ -1,7 +1,18 @@
 const NUM_OF_COLS = 100;
 const NUM_OF_ROWS = 60;
 
+const EAST = 0;
+const NORTH = 1;
+const WEST = 2;
+const SOUTH = 3;
+
 const GRID_ID = 'grid';
+
+const DELTAS = {};
+DELTAS[EAST] = [1, 0];
+DELTAS[WEST] = [-1, 0];
+DELTAS[NORTH] = [0, -1];
+DELTAS[SOUTH] = [0, 1];
 
 const getGrid = () => document.getElementById(GRID_ID);
 const getCellId = (colId, rowId) => colId + '_' + rowId;
@@ -37,18 +48,26 @@ const createGrids = function() {
   }
 };
 
-const handleKeyPress = () => {
+const moveSnake = function() {
   const [headX, headY] = snake[snake.length - 1];
   const tail = snake.shift();
 
-  snake.push([headX + 1, headY]);
+  const [deltaX, deltaY] = DELTAS[snakeDirection];
+
+  snake.push([headX + deltaX, headY + deltaY]);
   eraseTail(tail);
   drawSnake(snake);
 };
 
+const handleKeyPress = () => {
+  snakeDirection = (snakeDirection + 1) % 4;
+};
+
+let snakeDirection = EAST;
 const snake = [40, 41, 42].map(x => [x, 25]);
 
 const main = function() {
   createGrids();
   drawSnake(snake);
+  setInterval(moveSnake, 200);
 };
