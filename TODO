@@ -7,3 +7,15 @@
 --DONE-- * Move the snake one cell at a time from left to right
 --DONE-- * Extract a Snake class that is responsible for snake's behaviour
 --DONE-- * Create a ghost snake that randomly roams around
+
+--DONE-- * Extract a Direction class that is responsible for the direction 
+           and the deltas 
+
+* Make snake and ghostSnake local. they're currently global and hackable.
+
+* Change color of ghost snake
+* Generate food periodically
+* Allow snake to eat food when food becomes available
+* Upon eating the food, snake should grow tall
+* If snake touches itself or the walls, the game should be over
+* Add a scoring mechanism

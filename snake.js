@@ -1,18 +1,56 @@
-const NUM_OF_COLS = 100;
-const NUM_OF_ROWS = 60;
-
 const EAST = 0;
 const NORTH = 1;
 const WEST = 2;
 const SOUTH = 3;
 
-const GRID_ID = 'grid';
+class Direction {
+  constructor(initialHeading) {
+    this.heading = initialHeading;
+    this.deltas = {};
+    this.deltas[EAST] = [1, 0];
+    this.deltas[WEST] = [-1, 0];
+    this.deltas[NORTH] = [0, -1];
+    this.deltas[SOUTH] = [0, 1];
+  }
 
-const DELTAS = {};
-DELTAS[EAST] = [1, 0];
-DELTAS[WEST] = [-1, 0];
-DELTAS[NORTH] = [0, -1];
-DELTAS[SOUTH] = [0, 1];
+  get delta() {
+    return this.deltas[this.heading];
+  }
+
+  turnLeft() {
+    this.heading = (this.heading + 1) % 4;
+  }
+}
+
+class Snake {
+  constructor(positions, direction) {
+    this.positions = positions.slice();
+    this.direction = direction;
+    this.previousTail = [0, 0];
+  }
+
+  get location() {
+    return this.positions.slice();
+  }
+
+  turnLeft() {
+    this.direction.turnLeft();
+  }
+
+  move() {
+    const [headX, headY] = this.positions[this.positions.length - 1];
+    this.previousTail = this.positions.shift();
+
+    const [deltaX, deltaY] = this.direction.delta;
+
+    this.positions.push([headX + deltaX, headY + deltaY]);
+  }
+}
+
+const NUM_OF_COLS = 100;
+const NUM_OF_ROWS = 60;
+
+const GRID_ID = 'grid';
 
 const getGrid = () => document.getElementById(GRID_ID);
 const getCellId = (colId, rowId) => colId + '_' + rowId;
@@ -36,49 +74,6 @@ const createGrids = function() {
   }
 };
 
-class Snake {
-  constructor(positions, direction) {
-    this.positions = positions.slice();
-    this.direction = direction;
-    this.previousTail = [0, 0];
-  }
-
-  get location() {
-    return this.positions.slice();
-  }
-
-  turnLeft() {
-    this.direction = (this.direction + 1) % 4;
-  }
-
-  move() {
-    const [headX, headY] = this.positions[this.positions.length - 1];
-    this.previousTail = this.positions.shift();
-
-    const [deltaX, deltaY] = DELTAS[this.direction];
-
-    this.positions.push([headX + deltaX, headY + deltaY]);
-  }
-}
-
-const snake = new Snake(
-  [
-    [40, 25],
-    [41, 25],
-    [42, 25]
-  ],
-  EAST
-);
-
-const ghostSnake = new Snake(
-  [
-    [40, 30],
-    [41, 30],
-    [42, 30]
-  ],
-  SOUTH
-);
-
 const eraseTail = function(snake) {
   let [colId, rowId] = snake.previousTail;
   const cell = getCell(colId, rowId);
@@ -101,6 +96,24 @@ const moveAndDrawSnake = function(snake) {
   eraseTail(snake);
   drawSnake(snake);
 };
+
+const snake = new Snake(
+  [
+    [40, 25],
+    [41, 25],
+    [42, 25]
+  ],
+  new Direction(EAST)
+);
+
+const ghostSnake = new Snake(
+  [
+    [40, 30],
+    [41, 30],
+    [42, 30]
+  ],
+  new Direction(SOUTH)
+);
 
 const main = function() {
   createGrids();
