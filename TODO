@@ -11,7 +11,7 @@
 --DONE-- * Extract a Direction class that is responsible for the direction 
            and the deltas 
 
-* Make snake and ghostSnake local. they're currently global and hackable.
+--DONE-- * Make snake and ghostSnake local. they're currently global and hackable.
 
 * Change color of ghost snake
 * Generate food periodically

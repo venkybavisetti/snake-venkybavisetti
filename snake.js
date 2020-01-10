@@ -87,7 +87,7 @@ const drawSnake = function(snake) {
   });
 };
 
-const handleKeyPress = () => {
+const handleKeyPress = snake => {
   snake.turnLeft();
 };
 
@@ -97,25 +97,30 @@ const moveAndDrawSnake = function(snake) {
   drawSnake(snake);
 };
 
-const snake = new Snake(
-  [
-    [40, 25],
-    [41, 25],
-    [42, 25]
-  ],
-  new Direction(EAST)
-);
-
-const ghostSnake = new Snake(
-  [
-    [40, 30],
-    [41, 30],
-    [42, 30]
-  ],
-  new Direction(SOUTH)
-);
+const attachEventListeners = snake => {
+  document.body.onkeydown = handleKeyPress.bind(null, snake);
+};
 
 const main = function() {
+  const snake = new Snake(
+    [
+      [40, 25],
+      [41, 25],
+      [42, 25]
+    ],
+    new Direction(EAST)
+  );
+
+  const ghostSnake = new Snake(
+    [
+      [40, 30],
+      [41, 30],
+      [42, 30]
+    ],
+    new Direction(SOUTH)
+  );
+
+  attachEventListeners(snake);
   createGrids();
   drawSnake(snake);
   drawSnake(ghostSnake);
