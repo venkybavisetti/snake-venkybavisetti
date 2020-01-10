@@ -18,3 +18,7 @@ h1 {
 .snake {
   background-color: black;
 }
+
+.ghost {
+  background-color: gray;
+}
