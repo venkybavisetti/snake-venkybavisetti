@@ -15,7 +15,6 @@
 
 --DONE-- * Change color of ghost snake
 
-
 * Generate food periodically
 * Allow snake to eat food when food becomes available
 * Upon eating the food, snake should grow tall

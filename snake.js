@@ -55,17 +55,17 @@ class Snake {
 const NUM_OF_COLS = 100;
 const NUM_OF_ROWS = 60;
 
-const GRID_ID = 'grid';
+const GRID_ID = "grid";
 
 const getGrid = () => document.getElementById(GRID_ID);
-const getCellId = (colId, rowId) => colId + '_' + rowId;
+const getCellId = (colId, rowId) => colId + "_" + rowId;
 
 const getCell = (colId, rowId) =>
   document.getElementById(getCellId(colId, rowId));
 
 const createCell = function(grid, colId, rowId) {
-  const cell = document.createElement('div');
-  cell.className = 'cell';
+  const cell = document.createElement("div");
+  cell.className = "cell";
   cell.id = getCellId(colId, rowId);
   grid.appendChild(cell);
 };
@@ -114,7 +114,7 @@ const main = function() {
       [42, 25]
     ],
     new Direction(EAST),
-    'snake'
+    "snake"
   );
 
   const ghostSnake = new Snake(
@@ -124,7 +124,7 @@ const main = function() {
       [42, 30]
     ],
     new Direction(SOUTH),
-    'ghost'
+    "ghost"
   );
 
   attachEventListeners(snake);
