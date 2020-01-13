@@ -88,11 +88,18 @@ class Snake {
     this.positions.push([headX + deltaX, headY + deltaY]);
   }
 
+  grow() {
+    this.positions.unshift(this.previousTail);
+  }
+
   headAt(food) {
     const [foodX, foodY] = food;
     const [headX, headY] = this.positions[this.positions.length - 1];
     const headAtFood = foodX == headX && foodY == headY;
-    if (headAtFood) this.eatenFood = food;
+    if (headAtFood) {
+      this.eatenFood = food;
+      this.grow;
+    }
     return headAtFood;
   }
 
