@@ -14,7 +14,8 @@ class Game {
       snake: {
         location: this.snake.location,
         species: this.snake.species,
-        previousTail: this.snake.previousTail
+        previousTail: this.snake.previousTail,
+        previousFood: this.snake.previousFood
       },
       ghostSnake: {
         location: this.ghostSnake.location,
@@ -26,8 +27,15 @@ class Game {
       }
     };
   }
+
   updateGame() {
+    if (this.snake.headAt(this.food.position)) {
+      let foodX = Math.floor(Math.random() * NUM_OF_COLS);
+      let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
+      this.food = new Food(foodX, foodY);
+    }
     this.snake.move();
+    this.ghostSnake.move();
   }
 }
 
@@ -56,6 +64,7 @@ class Snake {
     this.direction = direction;
     this.type = type;
     this.previousTail = [0, 0];
+    this.eatenFood = [0, 0];
   }
 
   get location() {
@@ -77,6 +86,18 @@ class Snake {
     const [deltaX, deltaY] = this.direction.delta;
 
     this.positions.push([headX + deltaX, headY + deltaY]);
+  }
+
+  headAt(food) {
+    const [foodX, foodY] = food;
+    const [headX, headY] = this.positions[this.positions.length - 1];
+    const headAtFood = foodX == headX && foodY == headY;
+    if (headAtFood) this.eatenFood = food;
+    return headAtFood;
+  }
+
+  get previousFood() {
+    return this.eatenFood;
   }
 }
 
@@ -188,10 +209,17 @@ const randomlyTurnSnake = snake => {
   }
 };
 
+const eraseEatenFood = function(eatenFood) {
+  const [colId, rowId] = eatenFood;
+  const cell = getCell(colId, rowId);
+  cell.classList.remove("food");
+};
+
 const runGame = function(game) {
   game.updateGame();
   const { snake, ghostSnake, food } = game.getGameStatus();
   animateSnakes(snake, ghostSnake);
+  eraseEatenFood(snake.previousFood);
   drawFood(food);
 };
 
