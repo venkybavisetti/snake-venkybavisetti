@@ -20,3 +20,6 @@
 * Upon eating the food, snake should grow tall
 * If snake touches itself or the walls, the game should be over
 * Add a scoring mechanism
+
+1. The snake should be able to eat the food
+2. The snake should grow upon eating the food
