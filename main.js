@@ -53,7 +53,7 @@ const handleKeyPress = snake => {
   snake.turnLeft();
 };
 
-const moveAndDrawSnake = function(snake) {
+const updateSnake = function(snake) {
   eraseTail(snake);
   drawSnake(snake);
 };
@@ -89,8 +89,8 @@ const setup = game => {
 };
 
 const animateSnakes = (snake, ghostSnake) => {
-  moveAndDrawSnake(snake);
-  // moveAndDrawSnake(ghostSnake);
+  updateSnake(snake);
+  updateSnake(ghostSnake);
 };
 
 const randomlyTurnSnake = snake => {
@@ -107,25 +107,28 @@ const eraseEatenFood = function(eatenFood) {
 };
 
 const runGame = function(game) {
-  game.updateGame();
-  const { snake, ghostSnake, food } = game.getGameStatus();
-  if (game.isGameOver()) {
-    alert("game over");
-  }
-  animateSnakes(snake, ghostSnake);
-  eraseEatenFood(snake.previousFood);
-  drawFood(food);
+  const interval = setInterval(() => {
+    game.updateGame();
+    const { snake, ghostSnake, food } = game.getGameStatus();
+    if (game.isGameOver()) {
+      clearInterval(interval);
+      alert("game over");
+      return;
+    }
+    animateSnakes(snake, ghostSnake);
+    eraseEatenFood(snake.previousFood);
+    drawFood(food);
+  }, 90);
 };
 
 const main = function() {
-  const gridSize = { NUM_OF_COLS, NUM_OF_ROWS };
+  const boxSize = { NUM_OF_COLS, NUM_OF_ROWS };
   const snake = initSnake();
   const ghostSnake = initGhostSnake();
   const food = new Food(5, 5);
 
-  const game = new Game(snake, ghostSnake, food, gridSize);
+  const game = new Game(snake, ghostSnake, food, boxSize);
   setup(game);
-
-  setInterval(runGame, 90, game);
+  runGame(game);
   setInterval(randomlyTurnSnake, 500, ghostSnake);
 };
