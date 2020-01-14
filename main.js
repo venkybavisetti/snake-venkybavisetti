@@ -49,8 +49,8 @@ const drawFood = function(food) {
   cell.classList.add("food");
 };
 
-const handleKeyPress = snake => {
-  snake.turnLeft();
+const handleKeyPress = game => {
+  game.turnSnakeToLeft();
 };
 
 const updateSnake = function(snake) {
@@ -81,16 +81,17 @@ const initGhostSnake = () => {
 };
 
 const setup = game => {
-  attachEventListeners(game.snake);
+  const { snake, ghostSnake } = game.getGameStatus();
+  attachEventListeners(game);
   createGrids();
 
-  drawSnake(game.snake);
-  drawSnake(game.ghostSnake);
+  drawSnake(snake);
+  drawSnake(ghostSnake);
 };
 
 const animateSnakes = (snake, ghostSnake) => {
   updateSnake(snake);
-  // updateSnake(ghostSnake);
+  updateSnake(ghostSnake);
 };
 
 const randomlyTurnSnake = snake => {
@@ -136,5 +137,5 @@ const main = function() {
   const game = new Game(snake, ghostSnake, food, boxSize);
   setup(game);
   runGame(game);
-  setInterval(randomlyTurnSnake, 500, ghostSnake);
+  setInterval(randomlyTurnSnake, 90, ghostSnake);
 };
