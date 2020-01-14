@@ -106,6 +106,11 @@ const eraseEatenFood = function(eatenFood) {
   cell.classList.remove("food");
 };
 
+const updateScoreCard = function(newScore) {
+  const scoreCard = document.getElementById("scoreCard");
+  scoreCard.innerText = newScore;
+};
+
 const runGame = function(game) {
   const interval = setInterval(() => {
     game.updateGame();
@@ -118,6 +123,7 @@ const runGame = function(game) {
     animateSnakes(snake, ghostSnake);
     eraseEatenFood(snake.previousFood);
     drawFood(food);
+    updateScoreCard(snake.scoreCard);
   }, 90);
 };
 

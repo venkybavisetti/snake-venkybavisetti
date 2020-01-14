@@ -5,7 +5,6 @@ class Snake {
     this.type = type;
     this.previousTail = [0, 0];
     this.eatenFood = [0, 0];
-    this.scoreCard = 0;
   }
 
   get location() {
@@ -40,7 +39,6 @@ class Snake {
     if (headAtFood) {
       this.eatenFood = food;
       this.grow();
-      this.scoreCard += 1;
     }
     return headAtFood;
   }
