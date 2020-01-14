@@ -4,7 +4,6 @@ class Snake {
     this.direction = direction;
     this.type = type;
     this.previousTail = [0, 0];
-    this.eatenFood = [0, 0];
   }
 
   get location() {
@@ -37,7 +36,6 @@ class Snake {
     const [headX, headY] = this.positions[this.positions.length - 1];
     const headAtFood = foodX == headX && foodY == headY;
     if (headAtFood) {
-      this.eatenFood = food;
       this.grow();
     }
     return headAtFood;
@@ -48,10 +46,6 @@ class Snake {
     return (
       [NUM_OF_ROWS, -1].includes(headY) || [NUM_OF_COLS, -1].includes(headX)
     );
-  }
-
-  get previousFood() {
-    return this.eatenFood;
   }
 
   headTouchesBody() {

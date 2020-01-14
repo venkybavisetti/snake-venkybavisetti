@@ -90,7 +90,7 @@ const setup = game => {
 
 const animateSnakes = (snake, ghostSnake) => {
   updateSnake(snake);
-  updateSnake(ghostSnake);
+  // updateSnake(ghostSnake);
 };
 
 const randomlyTurnSnake = snake => {

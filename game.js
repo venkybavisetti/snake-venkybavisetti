@@ -5,6 +5,7 @@ class Game {
     this.food = food;
     this.gridSize = gridSize;
     this.scoreCard = 0;
+    this.previousFood = [0, 0];
   }
   getGameStatus() {
     return {
@@ -12,7 +13,7 @@ class Game {
         location: this.snake.location,
         species: this.snake.species,
         previousTail: this.snake.previousTail,
-        previousFood: this.snake.previousFood,
+        previousFood: this.previousFood,
         scoreCard: this.scoreCard
       },
       ghostSnake: {
@@ -28,6 +29,7 @@ class Game {
 
   updateGame() {
     if (this.snake.headAtPoint(this.food.position)) {
+      this.previousFood = this.food.position;
       let foodX = Math.floor(Math.random() * NUM_OF_COLS);
       let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
       this.food = new Food(foodX, foodY);
