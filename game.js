@@ -47,9 +47,19 @@ class Game {
     this.#ghostSnake.move();
   }
   isGameOver() {
+    const ghostSnakeLocation = this.#ghostSnake.location;
+    const snakeLocation = this.#snake.location;
+    const snakeEngaged = ghostSnakeLocation.some(point =>
+      this.#snake.headAtPoint(point)
+    );
+    const ghostSnakeEngaged = snakeLocation.some(point =>
+      this.#ghostSnake.headAtPoint(point)
+    );
+    const areEngaged = snakeEngaged || ghostSnakeEngaged;
     return (
       this.#snake.headTouchesBox(this.#gridSize) ||
-      this.#snake.headTouchesBody()
+      this.#snake.headTouchesBody() ||
+      areEngaged
     );
   }
 

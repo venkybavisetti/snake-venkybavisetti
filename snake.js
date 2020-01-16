@@ -35,15 +35,16 @@ class Snake {
     this.#positions.unshift(this.#previousTail);
   }
 
-  headAtPoint(food) {
-    const [foodX, foodY] = food;
+  headAtPoint(point) {
+    const [pointX, pointY] = point;
     const [headX, headY] = this.#positions[this.#positions.length - 1];
-    const headAtFood = foodX == headX && foodY == headY;
-    if (headAtFood) {
+    const areHeadAtPoint = pointX == headX && pointY == headY;
+    if (areHeadAtPoint) {
       this.grow();
     }
-    return headAtFood;
+    return areHeadAtPoint;
   }
+
   headTouchesBox(box) {
     const [headX, headY] = this.#positions[this.#positions.length - 1];
     const { NUM_OF_COLS, NUM_OF_ROWS } = box;

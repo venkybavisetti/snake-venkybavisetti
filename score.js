@@ -1,5 +1,5 @@
 class ScoreCard {
-  #scorePoints
+  #scorePoints;
   constructor() {
     this.#scorePoints = 0;
   }
@@ -7,6 +7,6 @@ class ScoreCard {
     this.#scorePoints += points;
   }
   getStatus() {
-    return #this.scorePoints;
+    return this.#scorePoints;
   }
 }
