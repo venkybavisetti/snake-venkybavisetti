@@ -22,13 +22,14 @@ h1 {
 
 .ghost {
   background-color: gray;
+  border-radius: 50px;
 }
-/* 
-.food {
-  background-color: red;
-} */
 
 .food {
+  background-color: red;
+}
+
+.specialFood {
   animation-name: specialFoodGlow;
   background-color: red;
   animation-duration: 0.5s;

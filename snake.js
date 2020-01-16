@@ -46,8 +46,8 @@ class Snake {
   }
 
   headTouchesBox(box) {
-    const [headX, headY] = this.#positions[this.#positions.length - 1];
     const { NUM_OF_COLS, NUM_OF_ROWS } = box;
+    const [headX, headY] = this.#positions[this.#positions.length - 1];
     return (
       [NUM_OF_ROWS, -1].includes(headY) || [NUM_OF_COLS, -1].includes(headX)
     );

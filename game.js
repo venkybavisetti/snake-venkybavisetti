@@ -36,19 +36,17 @@ class Game {
   }
 
   updateGame() {
-    if (this.#snake.headAtPoint(this.#food.position)) {
+    const snakeEatenFood = this.#snake.headAtPoint(this.#food.position);
+    const ghostEatenFood = this.#ghostSnake.headAtPoint(this.#food.position);
+
+    if (snakeEatenFood || ghostEatenFood) {
       this.#previousFood = this.#food.position;
       let foodX = Math.floor(Math.random() * NUM_OF_COLS);
       let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
       this.#food = new Food(foodX, foodY);
-      this.#scoreCard.update(5);
+      snakeEatenFood ? this.#scoreCard.update(5) : this.#scoreCard.update(0);
     }
-    if (this.#ghostSnake.headAtPoint(this.#food.position)) {
-      this.#previousFood = this.#food.position;
-      let foodX = Math.floor(Math.random() * NUM_OF_COLS);
-      let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
-      this.#food = new Food(foodX, foodY);
-    }
+
     this.#snake.move();
     this.#ghostSnake.move();
   }
