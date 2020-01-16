@@ -81,7 +81,7 @@ const initGhostSnake = () => {
 };
 
 const setup = game => {
-  const { snake, ghostSnake } = game.getGameStatus();
+  const { snake, ghostSnake } = game.status;
   attachEventListeners(game);
   createGrids();
 
@@ -115,24 +115,24 @@ const updateScoreCard = function(newScore) {
 const runGame = function(game) {
   const interval = setInterval(() => {
     game.updateGame();
-    const { snake, ghostSnake, food } = game.getGameStatus();
+    const { snake, ghostSnake, food, previousFood, scoreCard } = game.status;
     if (game.isGameOver()) {
       clearInterval(interval);
       alert("game over");
       return;
     }
     animateSnakes(snake, ghostSnake);
-    eraseEatenFood(snake.previousFood);
+    eraseEatenFood(previousFood);
     drawFood(food);
-    updateScoreCard(snake.scoreCard);
+    updateScoreCard(scoreCard);
   }, 90);
 };
 
 const main = function() {
-  const boxSize = { NUM_OF_COLS, NUM_OF_ROWS };
   const snake = initSnake();
   const ghostSnake = initGhostSnake();
-  const food = new Food(43, 30);
+  const food = new Food([43, 30], "food");
+  const boxSize = { NUM_OF_COLS, NUM_OF_ROWS };
   const scoreCard = new ScoreCard();
 
   const game = new Game(snake, ghostSnake, food, boxSize, scoreCard);

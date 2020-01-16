@@ -1,12 +1,19 @@
 class Food {
-  #colId;
-  #rowId;
-  constructor(colId, rowId) {
-    this.#colId = colId;
-    this.#rowId = rowId;
+  #position;
+  #type;
+  constructor(position, type) {
+    this.#position = position.slice();
+    this.#type = type;
   }
 
   get position() {
-    return [this.#colId, this.#rowId];
+    return this.#position;
+  }
+
+  get status() {
+    const food = {};
+    food.position = this.#position;
+    food.type = this.#type;
+    return food;
   }
 }

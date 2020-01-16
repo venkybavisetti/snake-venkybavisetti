@@ -6,7 +6,7 @@ class ScoreCard {
   update(points) {
     this.#scorePoints += points;
   }
-  getStatus() {
+  get status() {
     return this.#scorePoints;
   }
 }

@@ -14,25 +14,15 @@ class Game {
     this.#scoreCard = scoreCard;
     this.#previousFood = [0, 0];
   }
-  getGameStatus() {
-    return {
-      snake: {
-        location: this.#snake.location,
 
-        species: this.#snake.species,
-        previousTail: this.#snake.previousTailPosition,
-        previousFood: this.#previousFood,
-        scoreCard: this.#scoreCard.getStatus()
-      },
-      ghostSnake: {
-        location: this.#ghostSnake.location,
-        species: this.#ghostSnake.species,
-        previousTail: this.#ghostSnake.previousTailPosition
-      },
-      food: {
-        position: this.#food.position
-      }
-    };
+  get status() {
+    const game = {};
+    game.snake = this.#snake.status;
+    game.ghostSnake = this.#ghostSnake.status;
+    game.food = this.#food.status;
+    game.scoreCard = this.#scoreCard.status;
+    game.previousFood = this.#previousFood;
+    return game;
   }
 
   updateGame() {
@@ -43,7 +33,7 @@ class Game {
       this.#previousFood = this.#food.position;
       let foodX = Math.floor(Math.random() * NUM_OF_COLS);
       let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
-      this.#food = new Food(foodX, foodY);
+      this.#food = new Food([foodX, foodY]);
       snakeEatenFood ? this.#scoreCard.update(5) : this.#scoreCard.update(0);
     }
 
