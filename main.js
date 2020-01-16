@@ -132,7 +132,7 @@ const main = function() {
   const boxSize = { NUM_OF_COLS, NUM_OF_ROWS };
   const snake = initSnake();
   const ghostSnake = initGhostSnake();
-  const food = new Food(5, 5);
+  const food = new Food(43, 30);
   const scoreCard = new ScoreCard();
 
   const game = new Game(snake, ghostSnake, food, boxSize, scoreCard);

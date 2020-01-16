@@ -43,9 +43,16 @@ class Game {
       this.#food = new Food(foodX, foodY);
       this.#scoreCard.update(5);
     }
+    if (this.#ghostSnake.headAtPoint(this.#food.position)) {
+      this.#previousFood = this.#food.position;
+      let foodX = Math.floor(Math.random() * NUM_OF_COLS);
+      let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
+      this.#food = new Food(foodX, foodY);
+    }
     this.#snake.move();
     this.#ghostSnake.move();
   }
+
   isGameOver() {
     const ghostSnakeLocation = this.#ghostSnake.location;
     const snakeLocation = this.#snake.location;
@@ -55,11 +62,11 @@ class Game {
     const ghostSnakeEngaged = snakeLocation.some(point =>
       this.#ghostSnake.headAtPoint(point)
     );
-    const areEngaged = snakeEngaged || ghostSnakeEngaged;
+    const areSnakesEngaged = snakeEngaged || ghostSnakeEngaged;
     return (
       this.#snake.headTouchesBox(this.#gridSize) ||
       this.#snake.headTouchesBody() ||
-      areEngaged
+      areSnakesEngaged
     );
   }
 
