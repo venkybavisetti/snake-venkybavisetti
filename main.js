@@ -46,7 +46,7 @@ const drawSnake = function(snake) {
 const drawFood = function(food) {
   let [colId, rowId] = food.position;
   const cell = getCell(colId, rowId);
-  cell.classList.add("food");
+  cell.classList.add(food.type);
 };
 
 const handleKeyPress = game => {
@@ -101,10 +101,10 @@ const randomlyTurnSnake = snake => {
   }
 };
 
-const eraseEatenFood = function(eatenFood) {
-  const [colId, rowId] = eatenFood;
+const eraseEatenFood = function(previousFood) {
+  const [colId, rowId] = previousFood.position;
   const cell = getCell(colId, rowId);
-  cell.classList.remove("food");
+  cell.classList.remove(previousFood.type);
 };
 
 const updateScoreCard = function(newScore) {

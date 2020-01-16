@@ -12,7 +12,7 @@ class Game {
     this.#food = food;
     this.#gridSize = gridSize;
     this.#scoreCard = scoreCard;
-    this.#previousFood = [0, 0];
+    this.#previousFood = { position: [0, 0], type: "snake" };
   }
 
   get status() {
@@ -30,10 +30,13 @@ class Game {
     const ghostEatenFood = this.#ghostSnake.headAtPoint(this.#food.position);
 
     if (snakeEatenFood || ghostEatenFood) {
-      this.#previousFood = this.#food.position;
-      let foodX = Math.floor(Math.random() * NUM_OF_COLS);
-      let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
-      this.#food = new Food([foodX, foodY]);
+      this.#previousFood = this.#food.status;
+      const foodX = Math.floor(Math.random() * NUM_OF_COLS);
+      const foodY = Math.floor(Math.random() * NUM_OF_ROWS);
+      const typeDecide = Math.ceil(Math.random() * 2);
+      const type = typeDecide == 1 ? "food" : "specialFood";
+      console.log(type);
+      this.#food = new Food([foodX, foodY], type);
       snakeEatenFood ? this.#scoreCard.update(5) : this.#scoreCard.update(0);
     }
 
@@ -44,6 +47,7 @@ class Game {
   isGameOver() {
     const ghostSnakeLocation = this.#ghostSnake.location;
     const snakeLocation = this.#snake.location;
+
     const snakeEngaged = ghostSnakeLocation.some(point =>
       this.#snake.headAtPoint(point)
     );
@@ -51,6 +55,7 @@ class Game {
       this.#ghostSnake.headAtPoint(point)
     );
     const areSnakesEngaged = snakeEngaged || ghostSnakeEngaged;
+
     return (
       this.#snake.headTouchesBox(this.#gridSize) ||
       this.#snake.headTouchesBody() ||
