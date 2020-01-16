@@ -6,12 +6,12 @@ class Game {
   #scoreCard;
   #previousFood;
 
-  constructor(snake, ghostSnake, food, gridSize) {
+  constructor(snake, ghostSnake, food, gridSize, scoreCard) {
     this.#snake = snake;
     this.#ghostSnake = ghostSnake;
     this.#food = food;
     this.#gridSize = gridSize;
-    this.#scoreCard = 0;
+    this.#scoreCard = scoreCard;
     this.#previousFood = [0, 0];
   }
   getGameStatus() {
@@ -22,7 +22,7 @@ class Game {
         species: this.#snake.species,
         previousTail: this.#snake.previousTailPosition,
         previousFood: this.#previousFood,
-        scoreCard: this.#scoreCard
+        scoreCard: this.#scoreCard.getStatus()
       },
       ghostSnake: {
         location: this.#ghostSnake.location,
@@ -41,7 +41,7 @@ class Game {
       let foodX = Math.floor(Math.random() * NUM_OF_COLS);
       let foodY = Math.floor(Math.random() * NUM_OF_ROWS);
       this.#food = new Food(foodX, foodY);
-      this.#scoreCard += 5;
+      this.#scoreCard.update(5);
     }
     this.#snake.move();
     this.#ghostSnake.move();

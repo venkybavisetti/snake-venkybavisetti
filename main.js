@@ -133,8 +133,9 @@ const main = function() {
   const snake = initSnake();
   const ghostSnake = initGhostSnake();
   const food = new Food(5, 5);
+  const scoreCard = new ScoreCard();
 
-  const game = new Game(snake, ghostSnake, food, boxSize);
+  const game = new Game(snake, ghostSnake, food, boxSize, scoreCard);
   setup(game);
   runGame(game);
   setInterval(randomlyTurnSnake, 90, ghostSnake);
