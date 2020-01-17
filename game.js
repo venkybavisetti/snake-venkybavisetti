@@ -25,19 +25,27 @@ class Game {
     return game;
   }
 
+  generateFood() {
+    const foodX = Math.floor(Math.random() * NUM_OF_COLS);
+    const foodY = Math.floor(Math.random() * NUM_OF_ROWS);
+    const typeDecide = Math.ceil(Math.random() * 2);
+    const type = typeDecide == 1 ? "food" : "specialFood";
+    this.#food = new Food([foodX, foodY], type);
+  }
+
   updateGame() {
     const snakeEatenFood = this.#snake.headAtPoint(this.#food.position);
     const ghostEatenFood = this.#ghostSnake.headAtPoint(this.#food.position);
 
-    if (snakeEatenFood || ghostEatenFood) {
+    if (snakeEatenFood) {
+      this.#snake.grow(this.#food.type);
       this.#previousFood = this.#food.status;
-      const foodX = Math.floor(Math.random() * NUM_OF_COLS);
-      const foodY = Math.floor(Math.random() * NUM_OF_ROWS);
-      const typeDecide = Math.ceil(Math.random() * 2);
-      const type = typeDecide == 1 ? "food" : "specialFood";
-      console.log(type);
-      this.#food = new Food([foodX, foodY], type);
-      snakeEatenFood ? this.#scoreCard.update(5) : this.#scoreCard.update(0);
+      this.#scoreCard.update(this.#food.point);
+      this.generateFood();
+    }
+    if (ghostEatenFood) {
+      this.#previousFood = this.#food.status;
+      this.generateFood();
     }
 
     this.#snake.move();
