@@ -50,7 +50,14 @@ const drawFood = function(food) {
 };
 
 const handleKeyPress = game => {
-  game.turnSnakeToLeft();
+  const moves = {
+    ArrowLeft: WEST,
+    ArrowRight: EAST,
+    ArrowUp: NORTH,
+    ArrowDown: SOUTH
+  };
+
+  game.controlDirections(moves[event.key]);
 };
 
 const updateSnake = function(snake) {

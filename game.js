@@ -74,4 +74,14 @@ class Game {
   turnSnakeToLeft() {
     this.#snake.turnLeft();
   }
+
+  turnSnakeToRight() {
+    this.#snake.turnRight();
+  }
+
+  controlDirections(newDirection) {
+    const direction = this.#snake.headDirection;
+    if (newDirection == (direction + 1) % 4) this.turnSnakeToLeft();
+    if (newDirection == (direction + 3) % 4) this.turnSnakeToRight();
+  }
 }

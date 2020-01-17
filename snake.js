@@ -14,6 +14,10 @@ class Snake {
     this.#direction.turnLeft();
   }
 
+  turnRight() {
+    this.#direction.turnRight();
+  }
+
   get location() {
     return this.#positions;
   }
@@ -59,5 +63,9 @@ class Snake {
     snake.species = this.#type;
     snake.previousTail = this.#previousTail;
     return snake;
+  }
+
+  get headDirection() {
+    return this.#direction.directionState;
   }
 }
