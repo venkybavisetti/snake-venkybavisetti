@@ -5,6 +5,7 @@ class Game {
   #gridSize;
   #scoreCard;
   #previousFood;
+  #runningStatus;
 
   constructor(snake, ghostSnake, food, gridSize, scoreCard) {
     this.#snake = snake;
@@ -12,7 +13,8 @@ class Game {
     this.#food = food;
     this.#gridSize = gridSize;
     this.#scoreCard = scoreCard;
-    this.#previousFood = { position: [0, 0], type: "snake" };
+    this.#previousFood = { position: [0, 0], type: "food" };
+    this.#runningStatus = "resume";
   }
 
   get status() {
@@ -23,6 +25,14 @@ class Game {
     game.scoreCard = this.#scoreCard.status;
     game.previousFood = this.#previousFood;
     return game;
+  }
+
+  get runningState() {
+    return this.#runningStatus;
+  }
+
+  updateRunningState(givenState) {
+    this.#runningStatus = givenState;
   }
 
   generateFood() {
@@ -38,8 +48,8 @@ class Game {
     const ghostEatenFood = this.#ghostSnake.headAtPoint(this.#food.position);
 
     if (snakeEatenFood) {
-      this.#snake.grow(this.#food.type);
       this.#previousFood = this.#food.status;
+      this.#snake.grow(this.#food.type);
       this.#scoreCard.update(this.#food.point);
       this.generateFood();
     }
@@ -80,8 +90,8 @@ class Game {
   }
 
   controlDirections(newDirection) {
-    const direction = this.#snake.headDirection;
-    if (newDirection == (direction + 1) % 4) this.turnSnakeToLeft();
-    if (newDirection == (direction + 3) % 4) this.turnSnakeToRight();
+    const previousDirection = this.#snake.headDirection;
+    if (newDirection == (previousDirection + 1) % 4) this.turnSnakeToLeft();
+    if (newDirection == (previousDirection + 3) % 4) this.turnSnakeToRight();
   }
 }

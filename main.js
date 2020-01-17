@@ -56,7 +56,8 @@ const handleKeyPress = game => {
     ArrowUp: NORTH,
     ArrowDown: SOUTH
   };
-
+  const givenState = game.runningState == "resume" ? "pause" : "resume";
+  if (event.key === " ") game.updateRunningState(givenState);
   game.controlDirections(moves[event.key]);
 };
 
@@ -65,8 +66,8 @@ const updateSnake = function(snake) {
   drawSnake(snake);
 };
 
-const attachEventListeners = snake => {
-  document.body.onkeydown = handleKeyPress.bind(null, snake);
+const attachEventListeners = game => {
+  document.body.onkeydown = handleKeyPress.bind(null, game);
 };
 
 const initSnake = () => {
@@ -121,6 +122,7 @@ const updateScoreCard = function(newScore) {
 
 const runGame = function(game) {
   const interval = setInterval(() => {
+    if (game.runningState == "pause") return;
     game.updateGame();
     const { snake, ghostSnake, food, previousFood, scoreCard } = game.status;
     if (game.isGameOver()) {
