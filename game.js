@@ -60,6 +60,7 @@ class Game {
 
     this.#snake.move();
     this.#ghostSnake.move();
+    this.#ghostSnake.wrap(this.#gridSize);
   }
 
   isGameOver() {

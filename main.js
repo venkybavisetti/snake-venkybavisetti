@@ -58,7 +58,7 @@ const handleKeyPress = game => {
   };
   const givenState = game.runningState == "resume" ? "pause" : "resume";
   if (event.key === " ") game.updateRunningState(givenState);
-  game.controlDirections(moves[event.key]);
+  if (game.runningState == "resume") game.controlDirections(moves[event.key]);
 };
 
 const updateSnake = function(snake) {
@@ -85,7 +85,7 @@ const initGhostSnake = () => {
     [41, 30],
     [42, 30]
   ];
-  return new Snake(ghostSnakePosition, new Direction(SOUTH), "ghost");
+  return new Snake(ghostSnakePosition, new Direction(EAST), "ghost");
 };
 
 const setup = game => {
@@ -141,11 +141,11 @@ const main = function() {
   const snake = initSnake();
   const ghostSnake = initGhostSnake();
   const food = new Food([43, 30], "food");
-  const boxSize = { NUM_OF_COLS, NUM_OF_ROWS };
+  const gridSize = { NUM_OF_COLS, NUM_OF_ROWS };
   const scoreCard = new ScoreCard();
 
-  const game = new Game(snake, ghostSnake, food, boxSize, scoreCard);
+  const game = new Game(snake, ghostSnake, food, gridSize, scoreCard);
   setup(game);
   runGame(game);
-  setInterval(randomlyTurnSnake, 90, ghostSnake);
+  // setInterval(randomlyTurnSnake, 90, ghostSnake);
 };

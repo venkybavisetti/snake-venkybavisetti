@@ -68,4 +68,13 @@ class Snake {
   get headDirection() {
     return this.#direction.directionState;
   }
+  wrap(boundary) {
+    const maxColNo = boundary.NUM_OF_COLS;
+    const maxRowNo = boundary.NUM_OF_ROWS;
+    const [headCol, headRow] = this.#positions.pop();
+    const wrappedHeadCol = (maxColNo + headCol) % maxColNo;
+    const wrappedHeadRow = (maxRowNo + headRow) % maxRowNo;
+    const wrappedHead = [wrappedHeadCol, wrappedHeadRow];
+    this.#positions.push(wrappedHead);
+  }
 }
